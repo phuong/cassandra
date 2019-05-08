@@ -75,6 +75,7 @@ public class StressProfile implements Serializable
     private Map<String, StressYaml.QueryDef> queries;
     public Map<String, StressYaml.TokenRangeQueryDef> tokenRangeQueries;
     private Map<String, String> insert;
+    private boolean schemaExisted=false;
     private boolean schemaCreated=false;
 
     transient volatile TableMetadata tableMetaData;
@@ -140,6 +141,7 @@ public class StressProfile implements Serializable
 
     private void init(StressYaml yaml) throws RequestValidationException
     {
+    	schemaExisted = yaml.schema_existed;
         keyspaceName = yaml.keyspace;
         keyspaceCql = yaml.keyspace_definition;
         tableName = yaml.table;
@@ -219,7 +221,7 @@ public class StressProfile implements Serializable
 
     public void maybeCreateSchema(StressSettings settings)
     {
-        if (!schemaCreated)
+        if (!schemaExisted && !schemaCreated)
         {
             JavaDriverClient client = settings.getJavaDriverClient();
 

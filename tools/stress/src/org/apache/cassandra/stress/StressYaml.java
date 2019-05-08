@@ -31,7 +31,7 @@ public class StressYaml
     public String keyspace_definition;
     public String table;
     public String table_definition;
-
+    public boolean schema_existed;
     public List<String> extra_definitions;
 
     public List<Map<String, Object>> columnspec;
